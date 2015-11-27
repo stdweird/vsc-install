@@ -15,7 +15,7 @@ class TestSetup(TestCase):
             'url': 'https://github.com/hpcugent/vsc-install',
             'download_url': 'https://github.com/hpcugent/vsc-install/archive/0.1.2.tar.gz',
         }
-        for fn in ['PKG-INFO', 'git_config', 'git_config_1', 'git_config_2', 'git_config_3', 'git_config_4']:
+        for fn in ['PKG-INFO', 'git_config', 'git_config_1', 'git_config_2', 'git_config_3', 'git_config_4', 'git_config_5']:
             self.assertEqual(get_name_url(os.path.join(shared_setup.REPO_TEST_DIR, 'setup', fn), version='0.1.2'), res,
                              msg='determined name and url from %s file' % fn)
 

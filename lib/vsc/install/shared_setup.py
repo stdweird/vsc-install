@@ -250,7 +250,7 @@ def get_name_url(filename=None, version=None, license_name=None):
         ],
         'url': [
             r'^Home-page:\s*(.*?)\s*$',
-            r'^\s*url\s*=\s*(https?.*?github.*?[:/]hpcugent/.*?)\.git\s*$',
+            r'^\s*url\s*=\s*(https?.*?github.*?[:/]hpcugent/.*?)(?:\.git)?\s*$',
             r'^\s*url\s*=\s*(git[:@].*?github.*?[:/]hpcugent/.*?)(?:\.git)?\s*$',
         ],
         'download_url' : [
@@ -273,7 +273,7 @@ def get_name_url(filename=None, version=None, license_name=None):
         res['url'] = "https://%s/%s" % (reg.group(1), reg.group(2))
 
     # handle git://server/user/project
-    if res['url'].startswith('git://'):
+    if res.get('url', '').startswith('git://'):
         res['url'] = "https://%s" % res['url'][len('git://'):]
 
     if not 'download_url' in res:
