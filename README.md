@@ -50,6 +50,11 @@ See also
 python setup.py test --help
 ```
 
+The dependencies are installed automatically in the `.eggs` directory. It will first try
+`github.ugent.be` and then `github.com` to install them. The same method is used as through
+which the original repository was cloned (http, ssh, ...). In case you need private
+dependencies, always clone with ssh.
+
 In case following error occurs, it means there is a test module `XYZ` that cannot be imported.
 
 ```txt
