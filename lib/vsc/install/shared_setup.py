@@ -437,7 +437,7 @@ class vsc_setup(object):
                 # Force vsc shared packages/namespace
                 if '__init__.py' in files and (package == 'vsc' or package.startswith('vsc.')):
                     init = open(os.path.join(root, '__init__.py')).read()
-                    if not re.search(r'^import\s+pkg_resources\npkg_resources.declare_namespace\(__name__\)$',
+                    if not re.search(r'^import\s+pkg_resources\n{1,3}pkg_resources.declare_namespace\(__name__\)$',
                                      init, re.M):
                         raise Exception(('vsc namespace packages do not allow non-shared namespace in dir %s.'
                                          'Fix with pkg_resources.declare_namespace') % root)
