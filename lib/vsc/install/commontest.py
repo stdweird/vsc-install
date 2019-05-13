@@ -116,6 +116,7 @@ PROSPECTOR_WHITELIST = [
     'redefined-builtin',
     'print-statement',  # use print() and from future import __print__ instead of print
     'metaclass-assignment',  # __metaclass__ doesn't exist anymore in python3
+    'inconsistent-return-statements', # Either all return statements in a function should return an expression, or none of them should.
 ]
 
 # Prospector commandline options (positional path is added automatically)
