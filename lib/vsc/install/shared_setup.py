@@ -139,6 +139,7 @@ sdw = ('Stijn De Weirdt', 'stijn.deweirdt@ugent.be')
 wdp = ('Wouter Depypere', 'wouter.depypere@ugent.be')
 wp = ('Ward Poelmans', 'ward.poelmans@vub.be')
 sm = ('Samuel Moors', 'samuel.moors@vub.be')
+bh = ('Balazs Hajgato', 'Balazs.Hajgato@UGent.be')
 
 # Regexp used to remove suffixes from scripts when installing(/packaging)
 REGEXP_REMOVE_SUFFIX = re.compile(r'(\.(?:py|sh|pl))$')
@@ -156,7 +157,7 @@ URL_GHUGENT_HPCUGENT = 'https://github.ugent.be/hpcugent/%(name)s'
 
 RELOAD_VSC_MODS = False
 
-VERSION = '0.12.5'
+VERSION = '0.12.6'
 
 log.info('This is (based on) vsc.install.shared_setup %s' % VERSION)
 
