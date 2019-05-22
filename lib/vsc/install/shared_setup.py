@@ -1345,6 +1345,8 @@ class vsc_setup(object):
                 '.md': 'text/markdown',
                 '.rst': 'text/x-rst',
                 '.txt': 'text/plain',
+                # fallback in case README file has no extension
+                '': 'text/plain',
             }
             if readme_ext in readme_content_types:
                 new_target['long_description_content_type'] = readme_content_types[readme_ext]
