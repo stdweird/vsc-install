@@ -1119,8 +1119,9 @@ class vsc_setup(object):
             log.info('Register with pypi')
             # do actually do this, use self.run_command()
             # you can only upload what you just created
-            self._print(['# Run command below to register with pypi (testpypi %s)' % self.testpypi])
-            self._print(setup + ['register'] + test + ['sdist', 'upload'] + test)
+            self._print(['# Run commands below to upload to PyPI (testpypi %s)' % self.testpypi])
+            self._print(setup + ['register'] + test + ['sdist'])
+            self._print(['twine', 'upload', '--verbose', 'dist/%s.tar.gz' % self.distribution.get_fullname()])
 
         def run(self):
             """Print list of thinigs to do"""
