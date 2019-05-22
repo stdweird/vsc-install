@@ -200,7 +200,10 @@ class TestSetup(TestCase):
         orig_target = klass.SHARED_TARGET
         klass.SHARED_TARGET['cmdclass']['easy_install'] = object
         new_target = setup.parse_target(package)
+
         self.assertEquals(new_target['name'], 'vsc-test')
+        self.assertEquals(new_target['version'], '1.0')
+        self.assertEquals(new_target['long_description_content_type'], 'text/markdown')
+        self.assertTrue(new_target['long_description'].startswith("Description\n==========="))
+
         klass.SHARED_TARGET = orig_target
-
-

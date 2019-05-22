@@ -1339,6 +1339,18 @@ class vsc_setup(object):
             new_target['description'] = descr  # summary in PKG-INFO
             new_target['long_description'] = readmetxt  # description in PKG-INFO
 
+            readme_ext = os.path.splitext(readme)[-1]
+            # see https://packaging.python.org/guides/making-a-pypi-friendly-readme/
+            readme_content_types = {
+                '.md': 'text/markdown',
+                '.rst': 'text/x-rst',
+                '.txt': 'text/plain',
+            }
+            if readme_ext in readme_content_types:
+                new_target['long_description_content_type'] = readme_content_types[readme_ext]
+            else:
+                raise Exception("Failed to derive content type for README file '%s' based on extension" % readme)
+
         vsc_scripts = target.pop('vsc_scripts', True)
         if vsc_scripts:
             candidates = self.generate_scripts()
