@@ -157,7 +157,7 @@ URL_GHUGENT_HPCUGENT = 'https://github.ugent.be/hpcugent/%(name)s'
 
 RELOAD_VSC_MODS = False
 
-VERSION = '0.12.8'
+VERSION = '0.12.9'
 
 log.info('This is (based on) vsc.install.shared_setup %s' % VERSION)
 
@@ -1399,6 +1399,8 @@ class vsc_setup(object):
         else:
             log.info('adding prospector to tests_require')
             tests_requires = new_target.setdefault('tests_require', [])
+            # Python 2.x support was removed in pydocstyle 4.0, so stick to latest release before 4.0
+            tests_requires.append('pydocstyle < 4.0')
             tests_requires.append('prospector >= 1.1.6.3b')
             deplinks = new_target.setdefault('dependency_links', [])
             deplinks.append("git+https://github.com/stdweird/prospector#egg=prospector-1.1.6.3b")
