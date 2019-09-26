@@ -57,5 +57,5 @@ for env_var in $(env | grep '^PYTHON' | cut -f1 -d'=' | grep -v PYTHON_STRIPPED_
     debug "> \$$env_var was: ${!env_var}"
 done
 
-debug "$PYTHON -E $(echo "$@")"
-$PYTHON -E "$@"
+debug "$PYTHON -s -E $(echo "$@")"
+$PYTHON -s -E "$@"
