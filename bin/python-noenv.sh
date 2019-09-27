@@ -25,4 +25,5 @@
 # along with vsc-install. If not, see <http://www.gnu.org/licenses/>.
 #
 ### END OF HEADER
-env -i /usr/bin/python "$@"
+# the -s makes sure the user site package is also ignored
+env -i /usr/bin/python -s "$@"
