@@ -38,15 +38,15 @@ unset GREP_OPTIONS
 
 # only actually print debug info if $PYTHON_STRIPPED_ENV_DEBUG is defined
 function debug {
-    if [ ! -z ${PYTHON_STRIPPED_ENV_DEBUG:-} ]; then
+    if [ -n "${PYTHON_STRIPPED_ENV_DEBUG:-}" ]; then
         echo "[python-stripped-env] $1"
     fi
 }
 
-debug "which python: $(which python)"
+debug "which python: $(command -v python)"
 
 # unset all $LD_* environment variables
-for env_var in $(env | egrep '^LD_' | cut -f1 -d'='); do
+for env_var in $(env | grep -E '^LD_' | cut -f1 -d'='); do
     debug "Unsetting \$$env_var (value was: ${!env_var})"
     unset $env_var
 done
