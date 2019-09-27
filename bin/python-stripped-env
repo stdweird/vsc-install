@@ -57,5 +57,10 @@ for env_var in $(env | grep '^PYTHON' | cut -f1 -d'=' | grep -v PYTHON_STRIPPED_
     debug "> \$$env_var was: ${!env_var}"
 done
 
+# -s: ignore $HOME/.local/python*/site-packages
+# see https://docs.python.org/2/using/cmdline.html#cmdoption-s
+# and https://docs.python.org/2/library/site.html#site.USER_SITE
+# -E: ignore $PYTHONPATH and $PYTHONHOME
+# see https://docs.python.org/2/using/cmdline.html#cmdoption-e
 debug "$PYTHON -s -E $(echo "$@")"
 $PYTHON -s -E "$@"
