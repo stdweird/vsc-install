@@ -85,7 +85,7 @@ class TestSetup(TestCase):
         self.assertEqual(self.setup.sanitize('python-ldap == 11'), 'python-ldap == 11',
                          msg='packages starting with python- are not prefixed again with VSC_RPM_PYTHON set')
 
-        self.assertEqual(shared_setup.PYTHON_BDIST_RPM_PREFIX_MAP, {'pycrypto': 'python-crypto'},
+        self.assertEqual(shared_setup.PYTHON_BDIST_RPM_PREFIX_MAP, {'pycrypto': 'python%s-crypto'},
                          msg='PYTHON_BDIST_RPM_PREFIX_MAP is hardcoded mapping')
         self.assertEqual(self.setup.sanitize('pycrypto == 12'), 'python-crypto == 12',
                          msg='packages in PYTHON_BDIST_RPM_PREFIX_MAP are repalced with value with VSC_RPM_PYTHON set')
@@ -98,6 +98,18 @@ class TestSetup(TestCase):
         self.assertEqual(self.setup.sanitize(['anything >= 5', 'vsc-xyz >= 10', 'pycrypto == 12', 'pbs_python <= 13']),
                          'python-anything >= 5,python-vsc-xyz >= 10,python-crypto == 12,pbs_python <= 13',
                          msg='list is ,-joined and replaced/prefixed with VSC_RPM_PYTHON set')
+
+        os.environ['VSC_RPM_PYTHON'] = '2'
+        self.assertEqual(self.setup.sanitize('anything >= 5'), 'python2-anything >= 5',
+                         msg='all packages are prefixed with python2 if VSC_RPM_PYTHON set to 2')
+        self.assertEqual(self.setup.sanitize('pycrypto == 12'), 'python2-crypto == 12',
+                         msg='packages in PYTHON_BDIST_RPM_PREFIX_MAP are replaced with value with VSC_RPM_PYTHON set to 2')
+
+        os.environ['VSC_RPM_PYTHON'] = '3'
+        self.assertEqual(self.setup.sanitize('anything >= 5'), 'python3-anything >= 5',
+                         msg='all packages are prefixed with python3 if VSC_RPM_PYTHON set to 3')
+        self.assertEqual(self.setup.sanitize('pycrypto == 12'), 'python3-crypto == 12',
+                         msg='packages in PYTHON_BDIST_RPM_PREFIX_MAP are replaced with value with VSC_RPM_PYTHON set to 3')
 
         os.environ['VSC_RPM_PYTHON'] = '0'
         self.assertEqual(self.setup.sanitize('anything >= 5'), 'anything >= 5',

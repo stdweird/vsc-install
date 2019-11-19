@@ -157,7 +157,7 @@ URL_GHUGENT_HPCUGENT = 'https://github.ugent.be/hpcugent/%(name)s'
 
 RELOAD_VSC_MODS = False
 
-VERSION = '0.12.10'
+VERSION = '0.12.11'
 
 log.info('This is (based on) vsc.install.shared_setup %s' % VERSION)
 
@@ -168,7 +168,7 @@ NO_PREFIX_PYTHON_BDIST_RPM = ['pbs_python']
 
 # Hardcode map of python dependency prefix to their rpm python- flavour prefix
 PYTHON_BDIST_RPM_PREFIX_MAP = {
-    'pycrypto': 'python-crypto',
+    'pycrypto': 'python%s-crypto',
 }
 
 SHEBANG_BIN_BASH = "#!/bin/bash"
@@ -1187,7 +1187,7 @@ class vsc_setup(object):
         """
         Transforms name into a sensible string for use in setup.cfg.
 
-        enviroment variable VSC_RPM_PYTHON is set to 1 and either
+        environment variable VSC_RPM_PYTHON is set to 1,2 or 3 and either
             name starts with key from PYTHON_BDIST_RPM_PREFIX_MAP
                 new name starts with value
             python- is prefixed in case of
@@ -1201,18 +1201,28 @@ class vsc_setup(object):
             return ",".join([klass.sanitize(r) for r in name])
 
         else:
-            if os.environ.get('VSC_RPM_PYTHON', 'NOT_ONE') == '1':
+            pyvers = os.environ.get('VSC_RPM_PYTHON', None)
+            if pyvers in ("1", "2", "3"):
+                if pyvers == '1':
+                    pyvers = ''
+
                 # hardcoded prefix map
                 for pydep, rpmname in PYTHON_BDIST_RPM_PREFIX_MAP.items():
                     if name.startswith(pydep):
-                        return rpmname+name[len(pydep):]
+                        newname = (rpmname+name[len(pydep):]) % pyvers
+                        log.debug("new sanitized name %s from map (old %s)", newname, name)
+                        return newname
 
                 # more sensible map
                 p_p = (not ([x for x in NO_PREFIX_PYTHON_BDIST_RPM if name.startswith(x)] or
-                       name.startswith('python-')) or name.startswith('vsc'))
+                            name.startswith('python-') or name.startswith('python%s-' % pyvers))
+                       or name.startswith('vsc'))
 
                 if p_p:
-                    name = 'python-%s' % name
+                    newname = 'python%s-%s' % (pyvers, name)
+                    log.debug("new sanitized name %s (old %s)", newname, name)
+                    return newname
+
             return name
 
 
